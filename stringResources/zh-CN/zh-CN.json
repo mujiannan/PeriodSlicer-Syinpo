@@ -1,0 +1,32 @@
+{
+    "locale":"zh-CN",
+    "values":{
+        "Role_Dates_DisplayName":"日期序列",
+        "Role_Dates_Discription":"请放置日期列",
+        "Role_StartDate_DisplayName":"默认开始日期",
+        "Role_StartDate_Discription":"可以使用度量值指定切片器的默认开始日期",
+        "Role_DefaultEndDate_DisplayName":"默认结束日期",
+        "Role_DefaultEndDate_Discription":"可以使用度量值指定切片器的默认结束日期",
+        "Obj_Period_DisplayName":"日期段",
+        "Obj_Period_Discription":"日期段选项",
+        "Period_DefaultPeriodType_DisplayName":"默认日期段",
+        "Period_DefaultPeriodType_Discription":"选择如何确定切片器日期首尾默认值",
+        "LastMonth":"最近一个月",
+        "LastEntireMonth":"最近一个完整月",
+        "LastWeek":"最近一周",
+        "LastEntireWeek":"最近一个完整周",
+        "Custom":"自定义（根据度量值）",
+        "Period_RelativeToday_DisplayName":"包含今天",
+        "Period_RelativeToday_Discription":"当默认日期项没有选择自定义时，此选项用于确定相对日期是否包含今日",
+        "Period_FirstDayOfWeek_DisplayName":"一周的第一天",
+        "Sunday":"星期天",
+        "Monday":"星期一",
+        "Tuesday":"星期二",
+        "Wednesday":"星期三",
+        "Thursday":"星期四",
+        "Friday":"星期五",
+        "Saturday":"星期六"
+    }
+}
+
+          

@@ -1,0 +1,192 @@
+{
+    "dataRoles": [
+        {
+            "displayName": "Dates",
+            "name": "Dates",
+            "kind": "Grouping",
+            "displayNameKey": "Role_Dates_DisplayName",
+            "description": "Column date",
+            "descriptionKey": "Role_Dates_Discription"
+        },
+        {
+            "displayNameKey": "Role_StartDate_DisplayName",
+            "displayName": "DefaultStartDate",
+            "name": "StartDate",
+            "kind": "Measure",
+            "descriptionKey": "Role_StartDate_Discription",
+            "description": "You can use Messure to assign Default date to the date-picker"
+        },
+        {
+            "displayNameKey": "Role_DefaultEndDate_DisplayName",
+            "displayName": "DefaultEndDate",
+            "name": "EndDate",
+            "kind": "Measure",
+            "descriptionKey": "Role_DefaultEndDate_Discription",
+            "description": "You can use Messure to assign Default date to the date-picker"
+        }
+    ],
+    "objects": {
+        "period": {
+            "displayNameKey": "Obj_Period_DisplayName",
+            "displayName": "Period",
+            "descriptionKey": "Obj_Period_Discription",
+            "description": "Settings for period-picker",
+            "properties": {
+                "defaultPeriodType": {
+                    "displayNameKey": "Period_DefaultPeriodType_DisplayName",
+                    "displayName": "Default period",
+                    "descriptionKey":"Period_DefaultPeriodType_Discription",
+                    "description": "Choose how to assign default period to the period-picker",
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "0",
+                                "displayNameKey": "LastMonth",
+                                "displayName": "Last month"
+                            },
+                            {
+                                "value": "1",
+                                "displayNameKey": "LastEntireMonth",
+                                "displayName": "Last entire month"
+                            },
+                            {
+                                "value": "2",
+                                "displayNameKey": "LastWeek",
+                                "displayName": "Last week"
+                            },
+                            {
+                                "value": "3",
+                                "displayNameKey": "LastEntireWeek",
+                                "displayName": "Last entire week"
+                            },
+                            {
+                                "value": "4",
+                                "displayNameKey": "Custom",
+                                "displayName": "Custom(use messures)"
+                            }
+                        ]
+                    },
+                    "filterState": true
+                },
+                "relativeToday": {
+                    "type": {
+                        "bool": true
+                    },
+                    "displayNameKey": "Period_RelativeToday_DisplayName",
+                    "displayName": "Contain today",
+                    "descriptionKey": "Period_RelativeToday_Discription",
+                    "description": "Effictive when and only when Custom(use messures) not selected"
+                },
+                "firstDayOfWeek": {
+                    "descriptionKey": "Period_FirstDayOfWeek_DisplayName",
+                    "displayName": "FirstDayOfWeek",
+                    "displayNameKey": "firstDayOfWeek",
+                    "type": {
+                        "enumeration": [
+                            {
+                                "value": "0",
+                                "displayName": "Sunday",
+                                "displayNameKey": "Sunday"
+                            },
+                            {
+                                "value": "1",
+                                "displayName": "Monday",
+                                "displayNameKey": "Monday"
+                            },
+                            {
+                                "value": "2",
+                                "displayName": "Tuesday",
+                                "displayNameKey": "Tuesday"
+                            },
+                            {
+                                "value": "3",
+                                "displayName": "Wednesday",
+                                "displayNameKey": "Wednesday"
+                            },
+                            {
+                                "value": "4",
+                                "displayName": "Thursday",
+                                "displayNameKey": "Thursday"
+                            },
+                            {
+                                "value": "5",
+                                "displayName": "Friday",
+                                "displayNameKey": "Friday"
+                            },
+                            {
+                                "value": "6",
+                                "displayName": "Saturday",
+                                "displayNameKey": "Saturday"
+                            }
+                        ]
+                    }
+                }
+            }
+        },
+        "general": {
+            "displayName": "General",
+            "displayNameKey": "formattingGeneral",
+            "properties": {
+                "filter": {
+                    "type": {
+                        "filter": true
+                    }
+                },
+                "selfFilter": {
+                    "type": {
+                        "filter": {
+                            "selfFilter": true
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "suppressDefaultTitle": true,
+    "dataViewMappings": [
+        {
+            "conditions": [
+                {
+                    "Dates": {
+                        "max": 1,
+                        "min": 1
+                    },
+                    "StartDate": {
+                        "max": 1,
+                        "min": 0
+                    },
+                    "EndDate": {
+                        "max": 1,
+                        "min": 0
+                    }
+                }
+            ],
+            "categorical": {
+                "categories": {
+                    "for": {
+                        "in": "Dates"
+                    },
+                    "dataReductionAlgorithm": {
+                        "top": {
+                            "count": 1
+                        }
+                    }
+                },
+                "values": {
+                    "select": [
+                        {
+                            "bind": {
+                                "to": "StartDate"
+                            }
+                        },
+                        {
+                            "bind": {
+                                "to": "EndDate"
+                            }
+                        }
+                    ]
+                }
+            }
+        }
+    ]
+}

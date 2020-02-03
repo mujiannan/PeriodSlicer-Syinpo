@@ -1,0 +1,25 @@
+{
+    "visual": {
+        "name": "DatePeriodSlice",
+        "displayName": "DatePeriodSlice",
+        "guid": "DatePeriodSlice9771124744984CE8959D0304EEAB35E8",
+        "visualClassName": "Visual",
+        "version": "1.0.0",
+        "description": "可设置默认值的日期段切片器",
+        "supportUrl": "https://github.com/mujiannan/PbiViz",
+        "gitHubUrl": "https://github.com/mujiannan/PbiViz"
+    },
+    "apiVersion": "2.6.0",
+    "author": {
+        "name": "MuJianNan",
+        "email": "littlesand@outlook.com"
+    },
+    "assets": {
+        "icon": "assets/icon.png"
+    },
+    "externalJS": [],
+    "style": "style/visual.less",
+    "capabilities": "capabilities.json",
+    "dependencies": null,
+    "stringResources": []
+}
