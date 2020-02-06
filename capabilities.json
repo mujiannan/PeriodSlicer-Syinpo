@@ -6,36 +6,139 @@
             "kind": "Grouping",
             "displayNameKey": "Role_Dates_DisplayName",
             "description": "Column date",
-            "descriptionKey": "Role_Dates_Discription"
+            "descriptionKey": "Role_Dates_Description"
         },
         {
             "displayNameKey": "Role_StartDate_DisplayName",
             "displayName": "DefaultStartDate",
             "name": "StartDate",
             "kind": "Measure",
-            "descriptionKey": "Role_StartDate_Discription",
-            "description": "You can use Messure to assign Default date to the date-picker"
+            "descriptionKey": "Role_StartDate_Description",
+            "description": "You can use measure to assign Default date to the date-picker"
         },
         {
             "displayNameKey": "Role_DefaultEndDate_DisplayName",
             "displayName": "DefaultEndDate",
             "name": "EndDate",
             "kind": "Measure",
-            "descriptionKey": "Role_DefaultEndDate_Discription",
-            "description": "You can use Messure to assign Default date to the date-picker"
+            "descriptionKey": "Role_DefaultEndDate_Description",
+            "description": "You can use measure to assign Default date to the date-picker"
         }
     ],
     "objects": {
-        "period": {
+        "datePickers": {
+            "displayNameKey": "Obj_DatePickers_DisplayName",
+            "displayName": "Date pickers",
+            "descriptionKey": "Obj_DatePickers_Description",
+            "description": "Settings for period-pickers",
+            "properties": {
+                "orientationType":{
+                    "displayNameKey": "DatePickers_Orientation_DisplayName",
+                    "displayName": "Orientation",
+                    "descriptionKey": "DatePickers_Orientation_Description",
+                    "description": "Set orientation for datePickers",
+                    "type": {
+                        "enumeration": [
+                            {
+                                "displayNameKey": "Horizontal",
+                                "displayName": "Horizontal",
+                                "value": "0"
+                            },
+                            {
+                                "displayNameKey": "Vertical",
+                                "displayName": "Vertical",
+                                "value": "1"
+                            }
+                        ]
+                    }
+                },
+                "fontSize":{
+                    "displayNameKey": "DatePickers_FontSize_DisplayName",
+                    "displayName": "Font size",
+                    "descriptionKey": "DatePickers_FontSize_Description",
+                    "description": "Set font-size for datePickers",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "fontColor":{
+                    "displayNameKey": "DatePickers_FontColor_DisplayName",
+                    "displayName": "Font color",
+                    "descriptionKey": "DatePickers_FontColor_Description",
+                    "description": "Set font-color for datePickers",
+                    "type": {
+                        "fill": {"solid": {"color":true}}
+                    }
+                },
+                "backgroundColor":{
+                    "displayNameKey": "DatePickers_BackgroundColor_DisplayName",
+                    "displayName": "Background color",
+                    "descriptionKey": "DatePickers_BackgroundColor_Description",
+                    "description": "Set background-color for datePickers",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color":true
+                            }
+                        }
+                    }
+                },
+                "backgroundTransparency":{
+                    "displayNameKey": "DatePickers_BackgroundTransparency_DisplayName",
+                    "displayName":"Background transparency",
+                    "descriptionKey": "DatePickers_BackgroundTransparency_Description",
+                    "description": "Set background-transparency for datePickers",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "borderWidth":{
+                    "displayNameKey": "DatePickers_BorderWidth_DisplayName",
+                    "displayName":"Border width",
+                    "descriptionKey": "DatePickers_BorderWidth_Description",
+                    "description": "Set border-width for datePickers",
+                    "type": {
+                        "numeric": true
+                    }
+                },
+                "borderColor":{
+                    "displayNameKey": "DatePickers_BorderColor_DisplayName",
+                    "displayName": "Border color",
+                    "descriptionKey": "DatePickers_BorderColor_Description",
+                    "description": "Set border-color for datePickers",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color":true
+                            }
+                        }
+                    }
+                },
+                "outlineColor":{
+                    "displayNameKey": "DatePickers_OutlineColor_DisplayName",
+                    "displayName": "Outline color",
+                    "descriptionKey": "DatePickers_OutlineColor_Description",
+                    "description": "Set outline-color for datePickers",
+                    "type": {
+                        "fill": {
+                            "solid": {
+                                "color":true
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "period":{
             "displayNameKey": "Obj_Period_DisplayName",
             "displayName": "Period",
-            "descriptionKey": "Obj_Period_Discription",
-            "description": "Settings for period-picker",
+            "descriptionKey": "Obj_Period_Description",
+            "description": "Settings for period",
             "properties": {
                 "defaultPeriodType": {
                     "displayNameKey": "Period_DefaultPeriodType_DisplayName",
                     "displayName": "Default period",
-                    "descriptionKey":"Period_DefaultPeriodType_Discription",
+                    "descriptionKey":"Period_DefaultPeriodType_Description",
                     "description": "Choose how to assign default period to the period-picker",
                     "type": {
                         "enumeration": [
@@ -62,7 +165,7 @@
                             {
                                 "value": "4",
                                 "displayNameKey": "Custom",
-                                "displayName": "Custom(use messures)"
+                                "displayName": "Custom(use measures)"
                             }
                         ]
                     },
@@ -74,8 +177,8 @@
                     },
                     "displayNameKey": "Period_RelativeToday_DisplayName",
                     "displayName": "Contain today",
-                    "descriptionKey": "Period_RelativeToday_Discription",
-                    "description": "Effictive when and only when Custom(use messures) not selected"
+                    "descriptionKey": "Period_RelativeToday_Description",
+                    "description": "Effictive when and only when Custom(use measures) not selected"
                 },
                 "firstDayOfWeek": {
                     "descriptionKey": "Period_FirstDayOfWeek_DisplayName",

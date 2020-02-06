@@ -1,7 +1,7 @@
 "use strict";
 import * as DatePeriod from "./datePeriod";
-export class PeriodSettings {
-    public defaultPeriodType:DatePeriod.DefaultPeriodType=DatePeriod.DefaultPeriodType.LastEntireMonth;
+export class PeriodSetting {
+    public defaultPeriodType:DatePeriod.DefaultPeriodType=DatePeriod.DefaultPeriodType.Custom;
     public relativeToday:boolean=true;
-    public firstDayOfWeek:number=1;
+    public firstDayOfWeek:number=1.00;
   }

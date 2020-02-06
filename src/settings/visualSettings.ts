@@ -28,10 +28,12 @@
 
 import { dataViewObjectsParser } from "powerbi-visuals-utils-dataviewutils";
 import DataViewObjectsParser = dataViewObjectsParser.DataViewObjectsParser;
-import {PeriodSettings} from "./datePeriod/periodSetting";
+import { DatePickerSetting } from "./datePeriod/datePickerSetting";
+import { PeriodSetting } from "./datePeriod/periodSetting";
 export class VisualSettings extends DataViewObjectsParser {
-      public period: PeriodSettings = new PeriodSettings();
-      }
+      public datePickers: DatePickerSetting = new DatePickerSetting();
+      public period: PeriodSetting = new PeriodSetting();
+}
 
 
 

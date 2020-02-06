@@ -40,22 +40,25 @@ import IVisualHost = powerbi.extensibility.visual.IVisualHost;
 import ISelectionId = powerbi.extensibility.ISelectionId;
 import * as d3 from "d3";
 type Selection<T extends d3.BaseType> = d3.Selection<T, any, any, any>;
-import { VisualSettings } from "./settings/settings";
-import { stratify } from "d3";
+import { VisualSettings } from "./settings/visualSettings";
+import { stratify, rgb } from "d3";
 import * as models from 'powerbi-models';
 import { IAdvancedFilter } from "powerbi-models";
+import IVisualEventService=powerbi.extensibility.IVisualEventService;
 //custom
-import { IPeriod, Period, DefaultPeriodType } from "./settings/datePeriod/datePeriod";
-import { RelativeReriodHelper } from "./settings/datePeriod/relativePeriodHelper";
+import { IPeriod, Period, DefaultPeriodType,OrientationType } from "./settings/datePeriod/datePeriod";
+import { RelativePeriodHelper } from "./settings/datePeriod/relativePeriodHelper";
 import { IPeriodSelectorManager, PeriodSelectorManager } from "./settings/datePeriod/periodSelectorManager";
 //third party
 import * as moment from "moment";
+
 export class Visual implements IVisual {
     //pbi
     private host: IVisualHost;
     private settings: VisualSettings;
     private category: powerbi.DataViewCategoryColumn;
     private selectionManager: powerbi.extensibility.ISelectionManager;
+    private events: IVisualEventService;
 
     //others
     private container: Selection<HTMLElement>;
@@ -63,25 +66,24 @@ export class Visual implements IVisual {
     constructor(options: VisualConstructorOptions) {
         //pbi
         //console.log('Visual constructor', options);
-        console.debug("visual constructor start");
         this.host = options.host;
-        this.selectionManager=this.host.createSelectionManager();
+        this.selectionManager = this.host.createSelectionManager();
+        this.events = options.host.eventService;
         //others
-        this.container = d3.select(options.element).classed("container", true);
+        this.container = d3.select(options.element).classed("container", true).append("div");
         if (document) {
             const dateSelector_Start = this.container.append("input")
                 .attr("type", "date")
-                .style("margin", "2px 10px 2px 2px");
+                .style("margin", "4px");
             const dateSelector_End = this.container.append("input")
                 .attr("type", "date")
-                .style("margin", "2px 0px 0px 2px");
+                .style("margin", "4px");
             dateSelector_Start.on("input change", () => { this.filterPeriod(); });
             dateSelector_End.on("input change", () => { this.filterPeriod(); });
             this.periodSelectorManager = new PeriodSelectorManager(dateSelector_Start, dateSelector_End);
             //Select datePeriod when click this button
-
             this.container.on('contextmenu', () => {
-                const mouseEvent: MouseEvent = d3.event as MouseEvent;
+                const mouseEvent: MouseEvent = <MouseEvent>d3.event;
                 //const eventTarget: EventTarget = mouseEvent.target;
                 //let dataPoint = d3.select(eventTarget).datum();
                 this.selectionManager.showContextMenu({}, {
@@ -93,53 +95,66 @@ export class Visual implements IVisual {
         }
     }
     public update(options: VisualUpdateOptions) {
-        console.debug("update start");
         //pbi
+        this.events.renderingStarted(options);
         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
+        let width: number = options.viewport.width;
+        if(this.settings.datePickers.backgroundTransparency<0||this.settings.datePickers.backgroundTransparency>1){
+            this.settings.datePickers.backgroundTransparency=0;
+        }
+        let backgroundColor=d3.rgb(this.settings.datePickers.backgroundColor).rgb();
+        let backgroundColorWithTransparency=rgb(backgroundColor.r,backgroundColor.g,backgroundColor.b,1-this.settings.datePickers.backgroundTransparency).toString();
+        //Set style for these date-pickers one-by-one, but not group by class
+        let datePickerWidth:number=(this.settings.datePickers.orientationType==OrientationType.Horizontal)?width/2-8-4*this.settings.datePickers.borderWidth:width-8-2*this.settings.datePickers.borderWidth;
+        this.periodSelectorManager.dateSelector_Start
+            .style("width", datePickerWidth + "px")
+            .style("font-size",this.settings.datePickers.fontSize+"px")
+            .style("color",this.settings.datePickers.fontColor)
+            .style("background-color",backgroundColorWithTransparency)
+            .style("border-width",this.settings.datePickers.borderWidth+"px")
+            .style("border-color",this.settings.datePickers.borderColor)
+            .style("outline-color",this.settings.datePickers.outlineColor)
+            .style("display", (this.settings.datePickers.orientationType==OrientationType.Horizontal)?"inline":"block");
+        this.periodSelectorManager.dateSelector_End
+            .style("width", datePickerWidth+"px")
+            .style("font-size",this.settings.datePickers.fontSize+"px")
+            .style("color",this.settings.datePickers.fontColor)
+            .style("background-color",backgroundColorWithTransparency)
+            .style("border-width",this.settings.datePickers.borderWidth+"px")
+            .style("border-color",this.settings.datePickers.borderColor)
+            .style("display", (this.settings.datePickers.orientationType==OrientationType.Horizontal)?"inline":"block");
         let dataView = options.dataViews[0];
-        console.debug("dataView", dataView);
         //set date series
         this.category = dataView.categorical.categories[0];
         //set new default period
         let newDefaultPeriod: IPeriod = new Period();
         if (this.settings.period.defaultPeriodType == DefaultPeriodType.Custom) {
-            console.debug("user select custom defaultPeriod");
-            dataView.categorical.values.map((messure: powerbi.DataViewValueColumn, index: number) => {
-                console.debug("1");
-                console.debug(messure.values[0]);
-                console.debug("2");
-                let messureDate: Date = moment(messure.values[0].toString()).startOf("day").toDate();
-                console.debug("messureDate", messureDate);
-                if (messure.source.roles["StartDate"]) {
-                    newDefaultPeriod.dateStart = messureDate;
+
+            dataView.categorical.values.map((measure: powerbi.DataViewValueColumn, index: number) => {
+                let measureDate: Date = moment(measure.values[0].toString()).startOf("day").toDate();
+                if (measure.source.roles["StartDate"]) {
+                    newDefaultPeriod.dateStart = measureDate;
                 }
-                if (messure.source.roles["EndDate"]) {
-                    newDefaultPeriod.dateEnd = messureDate;
+                if (measure.source.roles["EndDate"]) {
+                    newDefaultPeriod.dateEnd = measureDate;
                 }
             });
         } else {
-            console.debug("user select " + this.settings.period.defaultPeriodType.toString() + "\ defaultPeriod");
-            console.debug("firstDayOfWeek", this.settings.period.firstDayOfWeek);
-            let relativePeriodHelper: RelativeReriodHelper = new RelativeReriodHelper(this.settings.period.relativeToday, this.settings.period.firstDayOfWeek);
+            let relativePeriodHelper: RelativePeriodHelper = new RelativePeriodHelper(this.settings.period.relativeToday, this.settings.period.firstDayOfWeek);
             newDefaultPeriod = relativePeriodHelper.getPeriod(this.settings.period.defaultPeriodType);
         }
         this.periodSelectorManager.defaultPeriod = newDefaultPeriod;
-        console.debug("update end");
+        this.events.renderingFinished(options);
     }
     private filterPeriod() {
         //determine period from dateSelectors
-        console.debug("filter start");
         let period: IPeriod = this.periodSelectorManager.period;
         let target: models.IFilterColumnTarget;
-        try {
-            target = {
-                table: this.category.source.queryName.substr(0, this.category.source.queryName.indexOf('.')), // table
-                column: this.category.source.displayName // col1
-            };
-        }
-        catch (e) {
-            console.log(e);
-        }
+        target = {
+            table: this.category.source.queryName.substr(0, this.category.source.queryName.indexOf('.')), // table
+            column: this.category.source.displayName // col1
+        };
+
         //filter
         let conditions: models.IAdvancedFilterCondition[] = [];
         if (period.dateStart) {
@@ -158,8 +173,8 @@ export class Visual implements IVisual {
                 }
             );
         }
-
         let filter: IAdvancedFilter = {
+            // tslint:disable-next-line: no-http-string
             "$schema": "http://powerbi.com/product/schema#advanced",
             "target": target,
             "filterType": models.FilterType.Advanced,
@@ -167,7 +182,7 @@ export class Visual implements IVisual {
             "conditions": conditions
         };
         this.host.applyJsonFilter((period.dateStart || period.dateEnd) ? filter : null, "general", "filter", powerbi.FilterAction.merge);
-        console.debug("applyFilter end");
+
     }
     private static parseSettings(dataView: DataView): VisualSettings {
         return <VisualSettings>VisualSettings.parse(dataView);

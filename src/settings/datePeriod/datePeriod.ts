@@ -15,5 +15,7 @@ export class Period implements IPeriod {
 export enum DefaultPeriodType {
     LastMonth, LastEntireMonth, LastWeek, LastEntireWeek, Custom
 }
-
+export enum OrientationType{
+    Horizontal,Vertical
+}
 

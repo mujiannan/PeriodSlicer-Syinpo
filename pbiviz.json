@@ -1,13 +1,13 @@
 {
     "visual": {
-        "name": "DatePeriodSlice",
-        "displayName": "DatePeriodSlice",
-        "guid": "DatePeriodSlice9771124744984CE8959D0304EEAB35E8",
+        "name": "Period Slice - Syinpo",
+        "displayName": "Period Slicer - Syinpo",
+        "guid": "SyinpoPeriodSlice9771124744984CE8959D0304EEAB35E8",
         "visualClassName": "Visual",
         "version": "1.0.0",
-        "description": "可设置默认值的日期段切片器",
-        "supportUrl": "https://github.com/mujiannan/PbiViz",
-        "gitHubUrl": "https://github.com/mujiannan/PbiViz"
+        "description": "A period slicer, which can be initialized by messures.",
+        "supportUrl": "https://github.com/mujiannan/PeriodSlicer-Syinpo",
+        "gitHubUrl": "https://github.com/mujiannan/PeriodSlicer-Syinpo"
     },
     "apiVersion": "2.6.0",
     "author": {
