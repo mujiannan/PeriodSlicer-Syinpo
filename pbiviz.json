@@ -6,13 +6,13 @@
         "visualClassName": "Visual",
         "version": "1.0.0",
         "description": "A period slicer, which can be initialized by messures.",
-        "supportUrl": "https://github.com/mujiannan/PeriodSlicer-Syinpo",
+        "supportUrl": "https://github.com/mujiannan/PeriodSlicer-Syinpo/issues",
         "gitHubUrl": "https://github.com/mujiannan/PeriodSlicer-Syinpo"
     },
     "apiVersion": "2.6.0",
     "author": {
-        "name": "MuJianNan",
-        "email": "littlesand@outlook.com"
+        "name": "shennan",
+        "email": "shennan@syinpo.com"
     },
     "assets": {
         "icon": "assets/icon.png"

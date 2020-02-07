@@ -52,7 +52,7 @@
                         ]
                     }
                 },
-                "fontSize":{
+                "textSize":{
                     "displayNameKey": "DatePickers_FontSize_DisplayName",
                     "displayName": "Font size",
                     "descriptionKey": "DatePickers_FontSize_Description",
@@ -178,7 +178,8 @@
                     "displayNameKey": "Period_RelativeToday_DisplayName",
                     "displayName": "Contain today",
                     "descriptionKey": "Period_RelativeToday_Description",
-                    "description": "Effictive when and only when Custom(use measures) not selected"
+                    "description": "Effictive when and only when Custom(use measures) not selected",
+                    "filterState": true
                 },
                 "firstDayOfWeek": {
                     "descriptionKey": "Period_FirstDayOfWeek_DisplayName",
@@ -222,7 +223,8 @@
                                 "displayNameKey": "Saturday"
                             }
                         ]
-                    }
+                    },
+                    "filterState": true
                 }
             }
         },

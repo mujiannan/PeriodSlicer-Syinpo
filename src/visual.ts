@@ -45,6 +45,7 @@ import { stratify, rgb } from "d3";
 import * as models from 'powerbi-models';
 import { IAdvancedFilter } from "powerbi-models";
 import IVisualEventService=powerbi.extensibility.IVisualEventService;
+import {pixelConverter} from "powerbi-visuals-utils-typeutils";
 //custom
 import { IPeriod, Period, DefaultPeriodType,OrientationType } from "./settings/datePeriod/datePeriod";
 import { RelativePeriodHelper } from "./settings/datePeriod/relativePeriodHelper";
@@ -96,19 +97,24 @@ export class Visual implements IVisual {
     }
     public update(options: VisualUpdateOptions) {
         //pbi
+        
         this.events.renderingStarted(options);
         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
+        let dataView = options.dataViews[0];
+        this.category = dataView.categorical.categories[0];
+        //style
         let width: number = options.viewport.width;
         if(this.settings.datePickers.backgroundTransparency<0||this.settings.datePickers.backgroundTransparency>1){
             this.settings.datePickers.backgroundTransparency=0;
         }
         let backgroundColor=d3.rgb(this.settings.datePickers.backgroundColor).rgb();
         let backgroundColorWithTransparency=rgb(backgroundColor.r,backgroundColor.g,backgroundColor.b,1-this.settings.datePickers.backgroundTransparency).toString();
+        let fontSize:number=pixelConverter.fromPointToPixel(this.settings.datePickers.textSize);
+        let datePickerWidth:number=(this.settings.datePickers.orientationType==OrientationType.Horizontal)?width/2-10-4*this.settings.datePickers.borderWidth:width-10-2*this.settings.datePickers.borderWidth;
         //Set style for these date-pickers one-by-one, but not group by class
-        let datePickerWidth:number=(this.settings.datePickers.orientationType==OrientationType.Horizontal)?width/2-8-4*this.settings.datePickers.borderWidth:width-8-2*this.settings.datePickers.borderWidth;
         this.periodSelectorManager.dateSelector_Start
             .style("width", datePickerWidth + "px")
-            .style("font-size",this.settings.datePickers.fontSize+"px")
+            .style("font-size",fontSize+"px")
             .style("color",this.settings.datePickers.fontColor)
             .style("background-color",backgroundColorWithTransparency)
             .style("border-width",this.settings.datePickers.borderWidth+"px")
@@ -117,15 +123,12 @@ export class Visual implements IVisual {
             .style("display", (this.settings.datePickers.orientationType==OrientationType.Horizontal)?"inline":"block");
         this.periodSelectorManager.dateSelector_End
             .style("width", datePickerWidth+"px")
-            .style("font-size",this.settings.datePickers.fontSize+"px")
+            .style("font-size",fontSize+"px")
             .style("color",this.settings.datePickers.fontColor)
             .style("background-color",backgroundColorWithTransparency)
             .style("border-width",this.settings.datePickers.borderWidth+"px")
             .style("border-color",this.settings.datePickers.borderColor)
             .style("display", (this.settings.datePickers.orientationType==OrientationType.Horizontal)?"inline":"block");
-        let dataView = options.dataViews[0];
-        //set date series
-        this.category = dataView.categorical.categories[0];
         //set new default period
         let newDefaultPeriod: IPeriod = new Period();
         if (this.settings.period.defaultPeriodType == DefaultPeriodType.Custom) {
