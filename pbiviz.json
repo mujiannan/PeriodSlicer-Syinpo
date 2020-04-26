@@ -1,12 +1,12 @@
 {
     "visual": {
-        "name": "Period Slice - Syinpo",
-        "displayName": "Period Slicer - Syinpo",
+        "name": "PeriodSlice-Syinpo",
+        "displayName": "PeriodSlicer-Syinpo",
         "guid": "SyinpoPeriodSlice9771124744984CE8959D0304EEAB35E8",
         "visualClassName": "Visual",
-        "version": "1.0.0",
+        "version": "1.0.1",
         "description": "A period slicer, which can be initialized by messures.",
-        "supportUrl": "https://github.com/mujiannan/PeriodSlicer-Syinpo/issues",
+        "supportUrl": "http://www.syinpo.com",
         "gitHubUrl": "https://github.com/mujiannan/PeriodSlicer-Syinpo"
     },
     "apiVersion": "2.6.0",

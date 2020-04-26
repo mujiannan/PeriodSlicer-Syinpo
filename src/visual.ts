@@ -153,9 +153,12 @@ export class Visual implements IVisual {
         //determine period from dateSelectors
         let period: IPeriod = this.periodSelectorManager.period;
         let target: models.IFilterColumnTarget;
+        let splitPosition:number=this.category.source.queryName.indexOf('.');
+        let tableName:string=this.category.source.queryName.substr(0, splitPosition);
+        let fieldName:string=this.category.source.queryName.substr(splitPosition+1,this.category.source.queryName.length-splitPosition-1);
         target = {
-            table: this.category.source.queryName.substr(0, this.category.source.queryName.indexOf('.')), // table
-            column: this.category.source.displayName // col1
+            table: tableName, // table
+            column: fieldName // col1
         };
 
         //filter
