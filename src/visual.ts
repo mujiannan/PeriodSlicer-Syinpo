@@ -97,7 +97,6 @@ export class Visual implements IVisual {
     }
     public update(options: VisualUpdateOptions) {
         //pbi
-        
         this.events.renderingStarted(options);
         this.settings = Visual.parseSettings(options && options.dataViews && options.dataViews[0]);
         let dataView = options.dataViews[0];

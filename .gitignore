@@ -1,5 +1,6 @@
 StandardExmp/
 dist/
+webpack.statistics.*
 # tmp
 .tmp/
 
